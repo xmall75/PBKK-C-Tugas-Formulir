@@ -15,19 +15,19 @@ class FormController extends Controller
         $request->validate([
             'email' => 'required|email:rfc',
             'password' => ['required', Password::min(8)->mixedCase()->numbers()],
-            'name' => 'required|alpha:ascii',
+            'name' => 'required',
             'float' => 'required|numeric|between:2.50,99.99',
             'image' => 'required|max:2048|mimes:jpg,jpeg,png'
         ]);
 
-        $request->pict->storeAs('public/images', $request->pict->getClientOriginalName());
+        $request->image->storeAs('public/images', $request->image->getClientOriginalName());
 
         $results = [
             'email' => $request->email,
             'password' => $request->password,
             'name' => $request->name,
             'float' => $request->float,
-            'image' => $request->pict->getClientOriginalName(),
+            'image' => $request->image->getClientOriginalName(),
         ];
 
         return redirect('/result')->with(['results' => $results, 'status' => 'Form Submitted']);
